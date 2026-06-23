@@ -2,19 +2,25 @@
 GET http://localhost:3000/tasks
 
 ### list task
-GET http://localhost:3000/tasks/1
+GET http://localhost:3000/tasks/5be314cf-c004-4f73-bc22-30a37e49ea17
 
 ### create task
 POST http://localhost:3000/tasks
 Content-Type: application/json
 
 {
-  "name": "teste 1", 
-  "description": "descrição do teste1"
+  "name": "teste 2", 
+  "description": "descrição do teste 2"
 }
 
 ### patch task
-PATCH http://localhost:3000/tasks/1
+PATCH http://localhost:3000/tasks/5be314cf-c004-4f73-bc22-30a37e49ea17
+Content-Type: application/json
+
+{
+  "name": "teste 1", 
+  "description": "descrição do teste 1"
+}
 
 ### delete task
-DELETE http://localhost:3000/tasks/1
+DELETE http://localhost:3000/tasks/5be314cf-c004-4f73-bc22-30a37e49ea17
