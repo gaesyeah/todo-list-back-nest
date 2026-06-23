@@ -1,0 +1,14 @@
+### list tasks
+GET http://localhost:3000/tasks
+
+### list developer
+GET http://localhost:3000/tasks/1
+
+### create developer
+POST http://localhost:3000/tasks
+
+### patch developer
+PATCH http://localhost:3000/tasks/1
+
+### delete developer
+DELETE http://localhost:3000/tasks/1
