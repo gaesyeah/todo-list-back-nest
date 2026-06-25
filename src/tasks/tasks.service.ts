@@ -8,6 +8,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { Repository } from 'typeorm';
 import { Task } from './entities/task.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CurrentUserDto } from 'src/auth/current-user-dto';
 
 @Injectable()
 export class TasksService {
@@ -16,21 +17,24 @@ export class TasksService {
     private readonly repository: Repository<Task>,
   ) {}
 
-  async create(dto: CreateTaskDto) {
-    const existingTask = await this.repository.findOneBy({ name: dto.name });
+  async create(dto: CreateTaskDto, user: CurrentUserDto) {
+    const existingTask = await this.repository.findOneBy({
+      name: dto.name,
+      userId: user.id,
+    });
     if (existingTask) {
       throw new ConflictException(`Task ${dto.name} already exists`);
     }
 
-    const task = this.repository.create(dto);
+    const task = this.repository.create({ userId: user.id, ...dto });
     return this.repository.save(task);
   }
 
-  findAll() {
-    return this.repository.find();
+  findAllByUser(user: CurrentUserDto) {
+    return this.repository.find({ where: { userId: user.id } });
   }
 
-  async findOne(id: string) {
+  async findOneById(id: string) {
     const task = await this.repository.findOneBy({ id });
     if (!task) {
       throw new NotFoundException(`Task ${id} not found`);
@@ -39,7 +43,7 @@ export class TasksService {
     return task;
   }
 
-  async update(id: string, dto: UpdateTaskDto) {
+  async updateById(id: string, dto: UpdateTaskDto) {
     const task = await this.repository.findOneBy({ id });
 
     if (!task) {
@@ -55,7 +59,7 @@ export class TasksService {
     return this.repository.save(task);
   }
 
-  async remove(id: string) {
+  async deleteById(id: string) {
     const task = await this.repository.findOneBy({ id });
     if (!task) {
       throw new NotFoundException(`Task ${id} not found`);

@@ -3,6 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -10,10 +13,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       type: 'better-sqlite3',
       database: 'db.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      //only when developing, in that case we're using sqlite
+      //TODO alterar em prod, ou seja, quando eu trocar o sqlite pelo postgres
       synchronize: true,
     }),
+    ConfigModule.forRoot({ isGlobal: true }),
     TasksModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

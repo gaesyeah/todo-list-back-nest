@@ -7,38 +7,47 @@ import {
   Param,
   Delete,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUser } from 'src/auth/current-user.decorator';
+import { CurrentUserDto } from 'src/auth/current-user-dto';
+import { TaskOwnerGuard } from './task-owner.guard';
 
 @Controller('tasks')
+@UseGuards(JwtAuthGuard)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() dto: CreateTaskDto) {
-    return this.tasksService.create(dto);
+  create(@Body() dto: CreateTaskDto, @CurrentUser() user: CurrentUserDto) {
+    return this.tasksService.create(dto, user);
   }
 
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  findAllByUser(@CurrentUser() user: CurrentUserDto) {
+    return this.tasksService.findAllByUser(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(id);
+  @UseGuards(TaskOwnerGuard)
+  findOneById(@Param('id') id: string) {
+    return this.tasksService.findOneById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
-    return this.tasksService.update(id, dto);
+  @UseGuards(TaskOwnerGuard)
+  updateById(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
+    return this.tasksService.updateById(id, dto);
   }
 
-  @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(id);
+  @Delete(':id')
+  @UseGuards(TaskOwnerGuard)
+  deleteById(@Param('id') id: string) {
+    return this.tasksService.deleteById(id);
   }
 }

@@ -1,21 +1,25 @@
 ### list tasks
 GET http://localhost:3000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlMUB0ZXN0ZS5jb20iLCJzdWIiOiI4MGFkZmRiMC03YWU3LTQ0ZWQtOGQ3MS04YWUxNTkyZWU3YmQiLCJpYXQiOjE3ODIzNDI2NjYsImV4cCI6MTc4MjQyOTA2Nn0.-Ua2TOwU2XpvzgYNntYvvYkuUqAhmYesaF23ukQch0o
 
 ### list task
-GET http://localhost:3000/tasks/5be314cf-c004-4f73-bc22-30a37e49ea17
+GET http://localhost:3000/tasks/186ead50-96d2-49d9-91c5-7729eede76d3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNEB0ZXN0ZS5jb20iLCJzdWIiOiIxZjEwZGUzYi0zZmQ0LTQ4ZmMtOGZmYi1kYTc5NWNmMjQ5NWMiLCJpYXQiOjE3ODIzNDI2MDIsImV4cCI6MTc4MjQyOTAwMn0.lGcVsQN80NSRrHs-3iTFwM9YVfDu0WGQ__cgQyMreQg
 
 ### create task
 POST http://localhost:3000/tasks
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNEB0ZXN0ZS5jb20iLCJzdWIiOiIxZjEwZGUzYi0zZmQ0LTQ4ZmMtOGZmYi1kYTc5NWNmMjQ5NWMiLCJpYXQiOjE3ODIzNDI2MDIsImV4cCI6MTc4MjQyOTAwMn0.lGcVsQN80NSRrHs-3iTFwM9YVfDu0WGQ__cgQyMreQg
 
 {
-  "name": "teste 2", 
-  "description": "descrição do teste 2"
+  "name": "teste 1", 
+  "description": "descrição do teste 1"
 }
 
 ### patch task
-PATCH http://localhost:3000/tasks/5be314cf-c004-4f73-bc22-30a37e49ea17
+PATCH http://localhost:3000/tasks/501565c6-7b58-44e8-817f-a07b390a2abf
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNEB0ZXN0ZS5jb20iLCJzdWIiOiIxZjEwZGUzYi0zZmQ0LTQ4ZmMtOGZmYi1kYTc5NWNmMjQ5NWMiLCJpYXQiOjE3ODIzNDI2MDIsImV4cCI6MTc4MjQyOTAwMn0.lGcVsQN80NSRrHs-3iTFwM9YVfDu0WGQ__cgQyMreQg
 
 {
   "name": "teste 1", 
@@ -23,4 +27,5 @@ Content-Type: application/json
 }
 
 ### delete task
-DELETE http://localhost:3000/tasks/5be314cf-c004-4f73-bc22-30a37e49ea17
+DELETE http://localhost:3000/tasks/501565c6-7b58-44e8-817f-a07b390a2abf
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNEB0ZXN0ZS5jb20iLCJzdWIiOiIxZjEwZGUzYi0zZmQ0LTQ4ZmMtOGZmYi1kYTc5NWNmMjQ5NWMiLCJpYXQiOjE3ODIzNDI2MDIsImV4cCI6MTc4MjQyOTAwMn0.lGcVsQN80NSRrHs-3iTFwM9YVfDu0WGQ__cgQyMreQg
