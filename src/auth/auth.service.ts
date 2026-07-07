@@ -10,7 +10,7 @@ import { UsersService } from 'src/users/users.service';
 import bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './types/jwt-payload.type';
-import { RegisterUserDto } from './dto/register-user.dto';
+import { SignUpUserDto } from './dto/signup-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +19,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signUp(dto: RegisterUserDto) {
-    if (dto.password !== dto.confirmPassword) {
+  async signUp({ confirmPassword, ...dto }: SignUpUserDto) {
+    if (dto.password !== confirmPassword) {
       throw new BadRequestException('Passwords do not match');
     }
 

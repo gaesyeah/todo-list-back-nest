@@ -5,37 +5,33 @@ import {
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Repository } from 'typeorm';
-import { Task } from './entities/task.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CurrentUserDto } from 'src/auth/current-user-dto';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class TasksService {
-  constructor(
-    @InjectRepository(Task)
-    private readonly repository: Repository<Task>,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateTaskDto, user: CurrentUserDto) {
-    const existingTask = await this.repository.findOneBy({
-      name: dto.name,
-      userId: user.id,
+    const existingTask = await this.prisma.task.findUnique({
+      where: { name_userId: { name: dto.name, userId: user.id } },
     });
     if (existingTask) {
       throw new ConflictException(`Task ${dto.name} already exists`);
     }
 
-    const task = this.repository.create({ userId: user.id, ...dto });
-    return this.repository.save(task);
+    return this.prisma.task.create({ data: { userId: user.id, ...dto } });
   }
 
   findAllByUser(user: CurrentUserDto) {
-    return this.repository.find({ where: { userId: user.id } });
+    return this.prisma.task.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
   async findOneById(id: string) {
-    const task = await this.repository.findOneBy({ id });
+    const task = await this.prisma.task.findUnique({ where: { id } });
     if (!task) {
       throw new NotFoundException(`Task ${id} not found`);
     }
@@ -44,27 +40,33 @@ export class TasksService {
   }
 
   async updateById(id: string, dto: UpdateTaskDto) {
-    const task = await this.repository.findOneBy({ id });
+    const task = await this.prisma.task.findUnique({ where: { id } });
 
     if (!task) {
       throw new NotFoundException(`Task ${id} not found`);
     }
 
-    const existingTask = await this.repository.findOneBy({ name: dto.name });
-    if (existingTask && existingTask.id !== id) {
-      throw new ConflictException(`Task ${dto.name} already exists`);
+    if (dto.name) {
+      const existingTask = await this.prisma.task.findUnique({
+        where: { name_userId: { name: dto.name, userId: task.userId } },
+      });
+
+      if (existingTask && existingTask.id !== id) {
+        throw new ConflictException(`Task ${dto.name} already exists`);
+      }
     }
 
-    this.repository.merge(task, dto);
-    return this.repository.save(task);
+    console.log({ dto });
+
+    return this.prisma.task.update({ where: { id }, data: dto });
   }
 
   async deleteById(id: string) {
-    const task = await this.repository.findOneBy({ id });
+    const task = await this.prisma.task.findUnique({ where: { id } });
     if (!task) {
       throw new NotFoundException(`Task ${id} not found`);
     }
 
-    return this.repository.remove(task);
+    return this.prisma.task.delete({ where: { id } });
   }
 }

@@ -9,5 +9,5 @@ export class CreateTaskDto {
 
   @IsOptional()
   @IsBoolean()
-  isTaskDoneStatus: boolean;
+  completed: boolean;
 }
