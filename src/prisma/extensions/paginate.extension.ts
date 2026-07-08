@@ -2,11 +2,12 @@ import { Prisma } from '../../generated/prisma/client';
 import { PaginatedResponse } from '../../common/dto/paginated-response.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 
-// Minimal delegate interface used internally because Prisma's
-// $allModels extensions erase delegate types.
+// Minimal delegate interface used internally.
+// Prisma's $allModels extensions do not preserve delegate types,
+// so this isolates the required type assertion.
 interface InternalDelegate {
-  findMany(args: Record<string, unknown>): Promise<unknown[]>;
-  count(args: { where?: unknown }): Promise<number>;
+  findMany(args: unknown): Promise<unknown[]>;
+  count(args: unknown): Promise<number>;
 }
 
 // Extracts the item type from a findMany result so PaginatedResponse<T>
@@ -39,15 +40,13 @@ export function paginateExtension() {
               this,
             ) as unknown as InternalDelegate;
 
-            const { where } = findManyArgs as { where?: unknown };
-
             const [data, total] = await Promise.all([
               context.findMany({
                 ...findManyArgs,
                 skip,
                 take: currentLimit,
               }),
-              context.count({ where }),
+              context.count({ where: findManyArgs.where }),
             ]);
 
             return {
