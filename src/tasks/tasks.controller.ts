@@ -33,20 +33,20 @@ export class TasksController {
   }
 
   @Get(':id')
-  @UseGuards(OwnerGuard(TasksService))
+  @UseGuards(OwnerGuard((prisma) => prisma.task))
   findOneById(@Param('id') id: string) {
     return this.tasksService.findOneById(id);
   }
 
   @Patch(':id')
-  @UseGuards(OwnerGuard(TasksService))
+  @UseGuards(OwnerGuard((prisma) => prisma.task))
   updateById(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
     return this.tasksService.updateById(id, dto);
   }
 
   @HttpCode(204)
   @Delete(':id')
-  @UseGuards(OwnerGuard(TasksService))
+  @UseGuards(OwnerGuard((prisma) => prisma.task))
   deleteById(@Param('id') id: string) {
     return this.tasksService.deleteById(id);
   }

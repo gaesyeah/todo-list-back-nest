@@ -19,7 +19,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlN
 ### patch task
 PATCH http://localhost:3000/tasks/4fdef637-b8a1-4548-af20-f47a687c76fa
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNkB0ZXN0ZS5jb20iLCJzdWIiOiJlZTcyMWEyYi0zNDg2LTQ4MGYtYjBjMS05OWZkMTM2NGY4MmQiLCJpYXQiOjE3ODM0OTkzNzYsImV4cCI6MTc4MzU4NTc3Nn0.L5p9ErefN9g_Tfr7Y5Xqi-KXcOWJjnVMrz5CeA-mvKM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNkB0ZXN0ZS5jb20iLCJzdWIiOiJlZTcyMWEyYi0zNDg2LTQ4MGYtYjBjMS05OWZkMTM2NGY4MmQiLCJpYXQiOjE3ODM1MDEwMzYsImV4cCI6MTc4MzU4NzQzNn0.ASkFbNp1z7-gKaedGlbvdT88U2wN8tuF82B-JlTvcVA
 
 {
   "name": "teste 1 ssss", 

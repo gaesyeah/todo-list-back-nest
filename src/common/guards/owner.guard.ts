@@ -1,30 +1,27 @@
-// common/guards/owner.guard.ts
 import {
   CanActivate,
   ExecutionContext,
-  Inject,
   Injectable,
   NotFoundException,
   Type,
 } from '@nestjs/common';
-import { CurrentUserDto } from 'src/auth/types/current-user.type';
+import { PrismaService } from 'src/prisma/prisma.service';
+import type { CurrentUserDto } from 'src/auth/types/current-user.type';
 
 interface OwnableEntity {
   userId: string;
 }
 
-interface OwnableService<T extends OwnableEntity> {
-  findOneById(id: string): Promise<T | null>;
+interface PrismaDelegate<T extends OwnableEntity> {
+  findUnique(args: { where: { id: string } }): Promise<T | null>;
 }
 
 export function OwnerGuard<T extends OwnableEntity>(
-  serviceToken: Type<OwnableService<T>>,
+  getDelegate: (prisma: PrismaService) => PrismaDelegate<T>,
 ): Type<CanActivate> {
   @Injectable()
   class OwnerGuardMixin implements CanActivate {
-    constructor(
-      @Inject(serviceToken) private readonly service: OwnableService<T>,
-    ) {}
+    constructor(private readonly prisma: PrismaService) {}
 
     async canActivate(ctx: ExecutionContext): Promise<boolean> {
       const request = ctx.switchToHttp().getRequest<{
@@ -32,7 +29,10 @@ export function OwnerGuard<T extends OwnableEntity>(
         user: CurrentUserDto;
       }>();
 
-      const entity = await this.service.findOneById(request.params.id);
+      const entity = await getDelegate(this.prisma).findUnique({
+        where: { id: request.params.id },
+      });
+
       if (!entity) {
         throw new NotFoundException('Resource not found');
       }
