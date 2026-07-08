@@ -7,20 +7,17 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { CurrentUserDto } from 'src/auth/types/current-user.type';
 import { PrismaService } from '../prisma/prisma.service';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreateTaskDto, user: CurrentUserDto) {
-    const existingTask = await this.prisma.task.findUnique({
-      where: { name_userId: { name: dto.name, userId: user.id } },
+  async findAllWithPagination(dto: PaginationDto) {
+    return this.prisma.extended.task.paginate({
+      ...dto,
+      orderBy: { createdAt: 'desc' },
     });
-    if (existingTask) {
-      throw new ConflictException(`Task ${dto.name} already exists`);
-    }
-
-    return this.prisma.task.create({ data: { userId: user.id, ...dto } });
   }
 
   findAllByUser(user: CurrentUserDto) {
@@ -37,6 +34,17 @@ export class TasksService {
     }
 
     return task;
+  }
+
+  async create(dto: CreateTaskDto, user: CurrentUserDto) {
+    const existingTask = await this.prisma.task.findUnique({
+      where: { name_userId: { name: dto.name, userId: user.id } },
+    });
+    if (existingTask) {
+      throw new ConflictException(`Task ${dto.name} already exists`);
+    }
+
+    return this.prisma.task.create({ data: { userId: user.id, ...dto } });
   }
 
   async updateById(id: string, dto: UpdateTaskDto) {

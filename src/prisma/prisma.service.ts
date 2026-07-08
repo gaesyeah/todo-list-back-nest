@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '../generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { paginateExtension } from './extensions/paginate.extension';
 
 @Injectable()
 export class PrismaService
@@ -13,6 +14,8 @@ export class PrismaService
     });
     super({ adapter });
   }
+
+  readonly extended = this.$extends(paginateExtension());
 
   async onModuleInit() {
     await this.$connect();
