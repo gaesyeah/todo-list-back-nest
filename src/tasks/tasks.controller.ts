@@ -14,8 +14,8 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/current-user.decorator';
-import { CurrentUserDto } from 'src/auth/current-user-dto';
-import { TaskOwnerGuard } from './task-owner.guard';
+import type { CurrentUserDto } from 'src/auth/types/current-user.type';
+import { OwnerGuard } from 'src/common/guards/owner.guard';
 
 @Controller('tasks')
 @UseGuards(JwtAuthGuard)
@@ -33,20 +33,20 @@ export class TasksController {
   }
 
   @Get(':id')
-  @UseGuards(TaskOwnerGuard)
+  @UseGuards(OwnerGuard(TasksService))
   findOneById(@Param('id') id: string) {
     return this.tasksService.findOneById(id);
   }
 
   @Patch(':id')
-  @UseGuards(TaskOwnerGuard)
+  @UseGuards(OwnerGuard(TasksService))
   updateById(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
     return this.tasksService.updateById(id, dto);
   }
 
   @HttpCode(204)
   @Delete(':id')
-  @UseGuards(TaskOwnerGuard)
+  @UseGuards(OwnerGuard(TasksService))
   deleteById(@Param('id') id: string) {
     return this.tasksService.deleteById(id);
   }

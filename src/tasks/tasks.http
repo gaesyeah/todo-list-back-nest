@@ -9,20 +9,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlN
 ### create task
 POST http://localhost:3000/tasks
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNEB0ZXN0ZS5jb20iLCJzdWIiOiIxZjEwZGUzYi0zZmQ0LTQ4ZmMtOGZmYi1kYTc5NWNmMjQ5NWMiLCJpYXQiOjE3ODIzNDI2MDIsImV4cCI6MTc4MjQyOTAwMn0.lGcVsQN80NSRrHs-3iTFwM9YVfDu0WGQ__cgQyMreQg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNkB0ZXN0ZS5jb20iLCJzdWIiOiJlZTcyMWEyYi0zNDg2LTQ4MGYtYjBjMS05OWZkMTM2NGY4MmQiLCJpYXQiOjE3ODM0OTkzNzYsImV4cCI6MTc4MzU4NTc3Nn0.L5p9ErefN9g_Tfr7Y5Xqi-KXcOWJjnVMrz5CeA-mvKM
 
 {
-  "name": "teste 1", 
-  "description": "descrição do teste 1"
+  "name": "teste 1s", 
+  "description": "descrição do teste 1s"
 }
 
 ### patch task
-PATCH http://localhost:3000/tasks/501565c6-7b58-44e8-817f-a07b390a2abf
+PATCH http://localhost:3000/tasks/4fdef637-b8a1-4548-af20-f47a687c76fa
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNEB0ZXN0ZS5jb20iLCJzdWIiOiIxZjEwZGUzYi0zZmQ0LTQ4ZmMtOGZmYi1kYTc5NWNmMjQ5NWMiLCJpYXQiOjE3ODIzNDI2MDIsImV4cCI6MTc4MjQyOTAwMn0.lGcVsQN80NSRrHs-3iTFwM9YVfDu0WGQ__cgQyMreQg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlNkB0ZXN0ZS5jb20iLCJzdWIiOiJlZTcyMWEyYi0zNDg2LTQ4MGYtYjBjMS05OWZkMTM2NGY4MmQiLCJpYXQiOjE3ODM0OTkzNzYsImV4cCI6MTc4MzU4NTc3Nn0.L5p9ErefN9g_Tfr7Y5Xqi-KXcOWJjnVMrz5CeA-mvKM
 
 {
-  "name": "teste 1", 
+  "name": "teste 1 ssss", 
   "description": "descrição do teste 1"
 }
 

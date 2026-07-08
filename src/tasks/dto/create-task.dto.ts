@@ -1,6 +1,10 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { Task } from 'src/generated/prisma/client';
 
-export class CreateTaskDto {
+export class CreateTaskDto implements Pick<
+  Task,
+  'name' | 'description' | 'completed'
+> {
   @IsString()
   name: string;
 

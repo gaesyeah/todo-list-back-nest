@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { CurrentUserDto } from 'src/auth/current-user-dto';
+import { CurrentUserDto } from 'src/auth/types/current-user.type';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
