@@ -56,8 +56,6 @@ export class TasksService {
       }
     }
 
-    console.log({ dto });
-
     return this.prisma.task.update({ where: { id }, data: dto });
   }
 
