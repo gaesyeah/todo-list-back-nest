@@ -3,7 +3,6 @@ import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-
 export default tseslint.config(
   {
     ignores: ['eslint.config.mjs'],
@@ -37,12 +36,10 @@ export default tseslint.config(
           argsIgnorePattern: '^_',
         },
       ],
-      //! @nestjs/common's Query is banned on purpose — it's ambiguous with our
-      //! custom Query decorator (HTTP QUERY method, see src/http-query).
-      //* Use QueryParams() for URL query params (?foo=bar), and Query()
-      //* from src/http-query for the HTTP QUERY method (RFC 10008).
-      //? Second block below blocks bypassing the barrel file (src/http-query/index.ts)
-      //? by importing internal decorator/guard files directly.
+      //! Query from @nestjs/common is banned — use QueryParams() for URL
+      //! query params, Query() from src/http-query for HTTP QUERY (RFC 10008).
+      //? "paths" bans importing Query from @nestjs/common directly;
+      //? "patterns" blocks bypassing the barrel file via internal imports.
       '@typescript-eslint/no-restricted-imports': [
         'error',
         {
@@ -69,8 +66,7 @@ export default tseslint.config(
       ],
     },
   },
-  //! Exception: this file IS the intentional bridge to Nest's original Query,
-  //! so the restriction above doesn't apply here.
+  //! Exception: this file IS the intentional bridge to Nest's Query.
   {
     files: ['src/http-query/decorators/query-params.decorator.ts'],
     rules: {
